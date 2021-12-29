@@ -31,7 +31,7 @@ namespace DataAccessLayer
         public List<MDataPublish> GetAirQuality()
         {
             return AtmosphericGasesDBContext.MDataPublishes.Where(x => x.SensorName == "HavaKalitesi")
-                .OrderByDescending(x => x.DataPublishID).AsNoTracking().Take(1000).ToList();
+                .OrderByDescending(x => x.DataPublishID).AsNoTracking().Take(500).ToList();
         }
 
         public List<MDataPublish> GetAirQuality10()
@@ -48,7 +48,7 @@ namespace DataAccessLayer
         public List<MDataPublish> GetBurningGas()
         {
             return AtmosphericGasesDBContext.MDataPublishes.Where(x => x.SensorName == "YanıcıGaz")
-                .OrderByDescending(x => x.DataPublishID).AsNoTracking().Take(1000).ToList();
+                .OrderByDescending(x => x.DataPublishID).AsNoTracking().Take(500).ToList();
         }
 
         public List<MDataPublish> GetBurningGas10()
@@ -61,7 +61,7 @@ namespace DataAccessLayer
         public List<MDataPublish> GetC02()
         {
             return AtmosphericGasesDBContext.MDataPublishes.Where(x => x.SensorName == "KarbonDioksit")
-                .OrderByDescending(x => x.DataPublishID).AsNoTracking().Take(1000).ToList();
+                .OrderByDescending(x => x.DataPublishID).AsNoTracking().Take(500).ToList();
         }
 
         public List<MDataPublish> GetC0210()
@@ -87,7 +87,7 @@ namespace DataAccessLayer
         public List<MDataPublish> GetTempature()
         {
             return AtmosphericGasesDBContext.MDataPublishes.Where(x => x.SensorName == "Sıcaklık")
-                .OrderByDescending(x => x.DataPublishID).AsNoTracking().Take(1000).ToList();
+                .OrderByDescending(x => x.DataPublishID).AsNoTracking().Take(500).ToList();
         }
 
         public List<MDataPublish> GetTempature10()
