@@ -1,0 +1,354 @@
+﻿@{ 
+   BaseViewModel baseViewModel = new BaseViewModel();
+   baseViewModel = ViewBag.BaseData;
+
+   var YValuesForTempatures = Newtonsoft.Json.JsonConvert.SerializeObject(baseViewModel.Tempature.OrderBy(x => x.DataPublishID).Select(x => x.PublishDateTime).ToList());
+   var XLabelsForTempatures = Newtonsoft.Json.JsonConvert.SerializeObject(baseViewModel.Tempature.OrderBy(x => x.DataPublishID).Select(x => x.DataValue).ToList());
+   var predictedDataForTempature = Newtonsoft.Json.JsonConvert.SerializeObject(baseViewModel.LastTempatureResults.OrderBy(x => x.ResultID).Select(x => x.PredictedDataValue).ToList());
+
+   var YValuesForAirQuality = Newtonsoft.Json.JsonConvert.SerializeObject(baseViewModel.AirQuality.OrderBy(x => x.DataPublishID).Select(x => x.PublishDateTime).ToList());
+   var XLabelsForAirQuality = Newtonsoft.Json.JsonConvert.SerializeObject(baseViewModel.AirQuality.OrderBy(x => x.DataPublishID).Select(x => x.DataValue).ToList());
+   var predictedDataForAirQuality = Newtonsoft.Json.JsonConvert.SerializeObject(baseViewModel.LastAirQualityResults.OrderBy(x => x.ResultID).Select(x => x.PredictedDataValue).ToList());
+
+   var YValuesForCO2 = Newtonsoft.Json.JsonConvert.SerializeObject(baseViewModel.CO2.OrderBy(x => x.DataPublishID).Select(x => x.PublishDateTime).ToList());
+   var XLabelsForCO2 = Newtonsoft.Json.JsonConvert.SerializeObject(baseViewModel.CO2.OrderBy(x => x.DataPublishID).Select(x => x.DataValue).ToList());
+   var predictedDataForCO2 = Newtonsoft.Json.JsonConvert.SerializeObject(baseViewModel.LastCO2Results.OrderBy(x => x.ResultID).Select(x => x.PredictedDataValue).ToList());
+
+   var YValuesForHumidity = Newtonsoft.Json.JsonConvert.SerializeObject(baseViewModel.Humidity.OrderBy(x => x.DataPublishID).Select(x => x.PublishDateTime).ToList());
+   var XLabelsForHumidity = Newtonsoft.Json.JsonConvert.SerializeObject(baseViewModel.Humidity.OrderBy(x => x.DataPublishID).Select(x => x.DataValue).ToList());
+   var predictedDataForHumidity = Newtonsoft.Json.JsonConvert.SerializeObject(baseViewModel.LastHumidityResults.OrderBy(x => x.ResultID).Select(x => x.PredictedDataValue).ToList());
+
+   var YValuesForBurningGas = Newtonsoft.Json.JsonConvert.SerializeObject(baseViewModel.BurningGas.OrderBy(x => x.DataPublishID).Select(x => x.PublishDateTime).ToList());
+   var XLabelsForBurningGas = Newtonsoft.Json.JsonConvert.SerializeObject(baseViewModel.BurningGas.OrderBy(x => x.DataPublishID).Select(x => x.DataValue).ToList());
+   var predictedDataForBurningGas = Newtonsoft.Json.JsonConvert.SerializeObject(baseViewModel.LastBurningGasResults.OrderBy(x => x.ResultID).Select(x => x.PredictedDataValue).ToList());
+}
+
+
+<script src="~/assets/js/libs/jquery-3.1.1.min.js"></script>
+<script src="~/bootstrap/js/popper.min.js"></script>
+<script src="~/bootstrap/js/bootstrap.min.js"></script>
+<script src="~/plugins/perfect-scrollbar/perfect-scrollbar.min.js"></script>
+<script src="~/assets/js/app.js"></script>
+<script>
+    $(document).ready(function () {
+        App.init();
+    });
+</script>
+<script src="~/assets/js/custom.js"></script>
+<script src="~/plugins/apex/apexcharts.min.js"></script>
+<script>
+    try {
+        Apex.tooltip = {
+            theme: 'dark'
+        }
+
+        var filterDropdown = function () {
+            var getDropdownElement = document.querySelectorAll('.filter.custom-dropdown-icon .dropdown-item');
+            for (var i = 0; i < getDropdownElement.length; i++) {
+                getDropdownElement[i].addEventListener('click', function () {
+                    console.log(this.getAttribute('data-value'))
+                    document.querySelectorAll('.custom-dropdown-icon .dropdown-toggle > span.text')[0].innerHTML = this.getAttribute('data-value');
+                })
+            }
+        }
+
+        var d_1options1 = {
+            chart: {
+                height: 350,
+                type: 'bar',
+                toolbar: {
+                    show: false,
+                },
+                dropShadow: {
+                    enabled: true,
+                    top: 1,
+                    left: 1,
+                    blur: 1,
+                    color: '#515365',
+                    opacity: 0.3,
+                }
+            },
+            colors: ['#5c1ac3', '#ffbb44'],
+            plotOptions: {
+                bar: {
+                    horizontal: false,
+                    columnWidth: '55%',
+                    endingShape: 'rounded'
+                },
+            },
+            dataLabels: {
+                enabled: false
+            },
+            legend: {
+                position: 'bottom',
+                horizontalAlign: 'center',
+                fontSize: '14px',
+                markers: {
+                    width: 10,
+                    height: 10,
+                },
+                itemMargin: {
+                    horizontal: 0,
+                    vertical: 8
+                }
+            },
+            grid: {
+                borderColor: '#191e3a',
+            },
+            stroke: {
+                show: true,
+                width: 2,
+                colors: ['transparent']
+            },
+            series: [{
+                name: 'Tahmini Sıcaklık',
+                data: @Html.Raw(predictedDataForTempature)
+            },{
+                name: 'Sıcaklık',
+                data: @Html.Raw(XLabelsForTempatures)
+            }],
+            xaxis: {
+                type: 'datetime',
+                categories: @Html.Raw(YValuesForTempatures),
+            },
+            fill: {
+                type: 'gradient',
+                gradient: {
+                    shade: 'dark',
+                    type: 'vertical',
+                    shadeIntensity: 0.3,
+                    inverseColors: false,
+                    opacityFrom: 1,
+                    opacityTo: 0.8,
+                    stops: [0, 100]
+                }
+            },
+            tooltip: {
+                theme: 'dark',
+                y: {
+                    formatter: function (val) {
+                        return val
+                    }
+                }
+            }
+        }
+        var d_1C_3 = new ApexCharts(
+            document.querySelector("#uniqueVisits"),
+            d_1options1
+        );
+        d_1C_3.render();
+
+        var sLineArea = {
+            chart: {
+                height: 350,
+                type: 'area',
+                toolbar: {
+                    show: false,
+                }
+            },
+            dataLabels: {
+                enabled: false
+            },
+            stroke: {
+                curve: 'smooth'
+            },
+            series: [{
+                name: 'Hava Kalitesi',
+                data: @Html.Raw(XLabelsForAirQuality)
+            }, {
+                name: 'Tahmini Hava Kalitesi',
+                data: @Html.Raw(predictedDataForAirQuality)
+            }],
+
+            xaxis: {
+                categories: @Html.Raw(YValuesForAirQuality),
+            },
+            tooltip: {
+                x: {
+                    format: 'dd/MM/yy HH:mm'
+                },
+            }
+        }
+        var chart = new ApexCharts(
+            document.querySelector("#s-line-area"),
+            sLineArea
+        );
+        chart.render();
+
+        var options = {
+            chart: {
+                height: 350,
+                type: 'line',
+                toolbar: {
+                    show: false,
+                }
+            },
+            series: [{
+                name: 'Nem',
+                type: 'column',
+                data: @Html.Raw(XLabelsForHumidity)
+            }, {
+                name: 'Tahmini Nem',
+                type: 'line',
+                data: @Html.Raw(predictedDataForHumidity)
+            }],
+            stroke: {
+                width: [0, 4]
+            },
+            title: {
+                text: 'Nem'
+            },
+            labels: @Html.Raw(YValuesForHumidity),
+            xaxis: {
+                type: 'datetime'
+            },
+            yaxis: [{
+                title: {
+                    text: 'Nem',
+                },
+
+            }, {
+                opposite: true,
+                title: {
+                    text: 'Tahmini Nem'
+                }
+            }]
+
+        }
+
+        var chart = new ApexCharts(
+            document.querySelector("#mixed-chart"),
+            options
+        );
+
+        chart.render();
+
+
+        var d_1options1 = {
+            chart: {
+                height: 350,
+                type: 'bar',
+                toolbar: {
+                    show: false,
+                },
+                dropShadow: {
+                    enabled: true,
+                    top: 1,
+                    left: 1,
+                    blur: 1,
+                    color: '#515365',
+                    opacity: 0.3,
+                }
+            },
+            colors: ['#5c1ac3', '#ffbb44'],
+            plotOptions: {
+                bar: {
+                    horizontal: false,
+                    columnWidth: '55%',
+                    endingShape: 'rounded'
+                },
+            },
+            dataLabels: {
+                enabled: false
+            },
+            legend: {
+                position: 'bottom',
+                horizontalAlign: 'center',
+                fontSize: '14px',
+                markers: {
+                    width: 10,
+                    height: 10,
+                },
+                itemMargin: {
+                    horizontal: 0,
+                    vertical: 8
+                }
+            },
+            grid: {
+                borderColor: '#191e3a',
+            },
+            stroke: {
+                show: true,
+                width: 2,
+                colors: ['transparent']
+            },
+            series: [{
+                name: 'Tahmini CO2',
+                data: @Html.Raw(predictedDataForCO2)
+            },{
+                name: 'Co2',
+                data: @Html.Raw(XLabelsForCO2)
+            }],
+            xaxis: {
+                type: 'datetime',
+                categories: @Html.Raw(YValuesForCO2),
+            },
+            fill: {
+                type: 'gradient',
+                gradient: {
+                    shade: 'dark',
+                    type: 'vertical',
+                    shadeIntensity: 0.3,
+                    inverseColors: false,
+                    opacityFrom: 1,
+                    opacityTo: 0.8,
+                    stops: [0, 100]
+                }
+            },
+            tooltip: {
+                theme: 'dark',
+                y: {
+                    formatter: function (val) {
+                        return val
+                    }
+                }
+            }
+        }
+        var d_1C_3 = new ApexCharts(
+            document.querySelector("#Co2"),
+            d_1options1
+        );
+        d_1C_3.render();
+
+         var sLineArea = {
+            chart: {
+                height: 350,
+                type: 'area',
+                toolbar: {
+                    show: false,
+                }
+            },
+            dataLabels: {
+                enabled: false
+            },
+            stroke: {
+                curve: 'smooth'
+            },
+            series: [{
+                name: 'Yanıcı Gaz',
+                data: @Html.Raw(XLabelsForBurningGas)
+            }, {
+                name: 'Tahmini Yanıcı Gaz',
+                data: @Html.Raw(predictedDataForBurningGas)
+            }],
+
+            xaxis: {
+                type: 'datetime',
+                categories: @Html.Raw(YValuesForBurningGas),
+            },
+            tooltip: {
+                x: {
+                    format: 'dd/MM/yy HH:mm'
+                },
+            }
+        }
+        var chart = new ApexCharts(
+            document.querySelector("#YaniciGaz"),
+            sLineArea
+        );
+        chart.render();
+
+    } catch (e) {
+        console.log(e);
+    }
+</script>
