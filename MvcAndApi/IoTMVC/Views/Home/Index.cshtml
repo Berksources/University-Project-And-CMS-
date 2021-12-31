@@ -50,11 +50,12 @@
                 <div class="widget widget-one_hybrid widget-referral">
                     <div class="widget-heading">
                         <div class="w-icon">
-                            <img src="https://cdn-icons-png.flaticon.com/512/3222/3222073.png" width="24" height="24"
-                                 viewBox="0 0 24 24" fill="none" class="loaded" stroke="currentColor" alt="CO2">
+                            <img src="https://cdn-icons.flaticon.com/png/512/4206/premium/4206930.png?token=exp=1640964651~hmac=bba04c771ac02782e085e1fb0cb0a5d1"
+                                 width="24" height="24" viewBox="0 0 24 24" fill="none" class="loaded" stroke="currentColor" alt="CarbonMonoxide">
                         </div>
                         <p class="w-value">@Model.CO2.Last().DataValue /@Model.LastCO2Results.ElementAt(0).PredictedDataValue</p>
-                        <h5 class="">CO2/ Tahmini CO2-PPM</h5>
+                        <h5 class="">CO/Tahmini CO-PPM</h5>
+                        <h5 class="">Normal Değer</h5>
                     </div>
                     <div class="widget-content">
                         <div class="w-chart">
@@ -72,6 +73,7 @@
                         </div>
                         <p class="w-value">@Model.AirQuality.Last().DataValue /@Model.LastAirQualityResults.Last().PredictedDataValue</p>
                         <h5 class="">Hava Kalitesi / Tahmini Hava Kalitesi-PPM</h5>
+                        <h5 class="">Normal Değer</h5>
                     </div>
                     <div class="widget-content">
                         <div class="w-chart">
