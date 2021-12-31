@@ -5,7 +5,7 @@
 
 <div class="page-header">
     <div class="page-title">
-        <h3>Hava Tahmin Anasayfası / Son Tahmin : @Model.Tempature.Last().PublishDateTime</h3>
+        <h3>Hava Tahmin Anasayfası / Son Tahmin : @Model.LastTempatureResults.Last().PublishDateTime</h3>
     </div>
 </div>
 
@@ -53,7 +53,7 @@
                             <img src="https://cdn-icons-png.flaticon.com/512/3222/3222073.png" width="24" height="24"
                                  viewBox="0 0 24 24" fill="none" class="loaded" stroke="currentColor" alt="CO2">
                         </div>
-                        <p class="w-value">@Model.CO2.Last().DataValue /@Model.LastCO2Results.Last().PredictedDataValue</p>
+                        <p class="w-value">@Model.CO2.Last().DataValue /@Model.LastCO2Results.ElementAt(0).PredictedDataValue</p>
                         <h5 class="">CO2/ Tahmini CO2-PPM</h5>
                     </div>
                     <div class="widget-content">

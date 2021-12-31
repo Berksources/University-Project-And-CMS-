@@ -43,9 +43,12 @@ namespace IoTMVC
             //}
             app.UseStatusCodePages(async context =>
             {
-                if (context.HttpContext.Response.StatusCode == 404)
+                if (context.HttpContext.Response.StatusCode == 300 || context.HttpContext.Response.StatusCode == 304
+                  || context.HttpContext.Response.StatusCode == 400 || context.HttpContext.Response.StatusCode == 401
+                  || context.HttpContext.Response.StatusCode == 403 || context.HttpContext.Response.StatusCode == 404
+                  || context.HttpContext.Response.StatusCode == 408 || context.HttpContext.Response.StatusCode == 500)
                 {
-                    context.HttpContext.Response.Redirect("/Error/NotFound404");
+                    context.HttpContext.Response.Redirect("/Error/HttpStatusCodeHandler/?statusCode=" + context.HttpContext.Response.StatusCode);
                 }
             });
             db.Database.EnsureCreated();
