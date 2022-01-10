@@ -10,8 +10,7 @@ namespace IoTMVC.Controllers
         public ErrorController(
             IUnitOfWork<MDataPublish> unitOfWorkMDataPublish,
             IUnitOfWork<Result> unitOfWorkResult) : base(unitOfWorkMDataPublish, unitOfWorkResult)
-        {
-        }
+        {}
 
         [AllowAnonymous]
         public IActionResult HttpStatusCodeHandler(int statusCode)
